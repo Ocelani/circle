@@ -8,6 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// Database configuration.
 const (
 	host     = "localhost"
 	user     = "postgres"
@@ -18,19 +19,14 @@ const (
 	timeZone = "Asia/Shanghai"
 )
 
+// TB01 represents a record in the database.
 type TB01 struct {
 	ID       uint
 	ColTexto string
 	ColDt    time.Time
 }
 
-func dsn() string {
-	return fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s",
-		host, user, password, dbname, port, sslmode, timeZone,
-	)
-}
-
+// Create inserts a new record into the database.
 func (t *TB01) Create() error {
 	db, err := gorm.Open(postgres.Open(dsn()), &gorm.Config{})
 	if err != nil {
@@ -43,4 +39,12 @@ func (t *TB01) Create() error {
 	}
 
 	return nil
+}
+
+// dsn returns the data source name for the database connection.
+func dsn() string {
+	return fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s",
+		host, user, password, dbname, port, sslmode, timeZone,
+	)
 }

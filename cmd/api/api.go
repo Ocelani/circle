@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// postTB01 is a handler for the POST /tb01 route.
 func postTB01(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	l := NewAPILogger(r.Method, "/tb01").Debug("request received")

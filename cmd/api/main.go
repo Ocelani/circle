@@ -7,14 +7,17 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+// logLevel is the global log level for the application.
 const logLevel = zerolog.DebugLevel
 
+// init initializes the logger.
 func init() {
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	zerolog.SetGlobalLevel(logLevel)
 	log.Debug().Msg("init")
 }
 
+// main is the entrypoint for the application.
 func main() {
 	log.Info().Msg("running...")
 
