@@ -26,7 +26,10 @@ type Product struct {
 func main() {
 	fmt.Println("running...")
 
-	dsn := fmt.Sprintf("host=localhost user=postgres password=postgres dbname=postgres port=5432 sslmode=disable TimeZone=Asia/Shanghai")
+	dsn := fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s",
+		host, user, password, dbname, port, sslmode, TimeZone,
+	)
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
