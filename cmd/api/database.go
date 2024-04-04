@@ -19,11 +19,28 @@ const (
 	timeZone = "America/Sao_Paulo"
 )
 
-// TB01 represents a record in the database.
-type TB01 struct {
-	ID       uint      `gorm:"primaryKey" json:"id,omitempty"`
-	ColTexto string    `json:"col_texto,omitempty"`
-	ColDt    time.Time `json:"col_dt,omitempty"`
+// DatabaseConfig represents the database configuration.
+type DatabaseConfig struct {
+	Host     string
+	User     string
+	Password string
+	Name     string
+	Port     string
+	SSlMode  string
+	TimeZone string
+}
+
+// NewDatabaseConfig creates a new DatabaseConfig.
+func NewDatabaseConfig() *DatabaseConfig {
+	return &DatabaseConfig{
+		Host:     getEnv(databaseHostVar),
+		User:     getEnv(databaseUserVar),
+		Password: getEnv(databasePasswordVar),
+		Name:     getEnv(databaseNameVar),
+		Port:     getEnv(databasePortVar),
+		SSlMode:  getEnv(databaseSSlModeVar),
+		TimeZone: getEnv(databaseTimeZoneVar),
+	}
 }
 
 // Create inserts a new record into the database.
