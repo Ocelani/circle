@@ -25,7 +25,7 @@ func postTB01(w http.ResponseWriter, r *http.Request) {
 
 	if err := tb01.Create(); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		l.Err("failed to create tb01", http.StatusBadRequest, err)
+		l.Err("insert on tb01 error", http.StatusBadRequest, err)
 		return
 	}
 

@@ -16,14 +16,14 @@ const (
 	dbname   = "postgres"
 	port     = "5432"
 	sslmode  = "disable"
-	timeZone = "Asia/Shanghai"
+	timeZone = "America/Sao_Paulo"
 )
 
 // TB01 represents a record in the database.
 type TB01 struct {
-	ID       uint
-	ColTexto string
-	ColDt    time.Time
+	ID       uint      `gorm:"primaryKey" json:"id,omitempty"`
+	ColTexto string    `json:"col_texto,omitempty"`
+	ColDt    time.Time `json:"col_dt,omitempty"`
 }
 
 // Create inserts a new record into the database.

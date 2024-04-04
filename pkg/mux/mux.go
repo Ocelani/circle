@@ -1,4 +1,4 @@
-package channels
+package mux
 
 // Mux is a multiplexer that can send and receive values of type T.
 // It is used to fan-out values to multiple consumers.

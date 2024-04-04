@@ -1,4 +1,4 @@
-package channels
+package mux
 
 import (
 	"testing"

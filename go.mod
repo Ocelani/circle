@@ -3,6 +3,7 @@ module circle
 go 1.21.1
 
 require (
+	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.32.0
 	github.com/stretchr/testify v1.9.0
 	gorm.io/driver/postgres v1.5.7
