@@ -43,6 +43,13 @@ func NewDatabaseConfig() *DatabaseConfig {
 	}
 }
 
+// TB01 represents a record in the database.
+type TB01 struct {
+	ID       uint      `gorm:"primaryKey" json:"id,omitempty"`
+	ColTexto string    `json:"col_texto,omitempty"`
+	ColDt    time.Time `json:"col_dt,omitempty"`
+}
+
 // Create inserts a new record into the database.
 func (t *TB01) Create() error {
 	db, err := gorm.Open(postgres.Open(dsn()), &gorm.Config{})
