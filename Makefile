@@ -52,6 +52,7 @@ run-api:
 	@echo "${.YELLOW}--- Go: run api app ---${.RESET}"
 	go run $(API_APP_PATH) -sql ./db/create_table_TB01.sql
 
+
 ## Run Go kafka app
 run-kafka:
 	@echo "${.YELLOW}--- Go: run kafka app ---${.RESET}"
