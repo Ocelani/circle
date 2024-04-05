@@ -9,8 +9,8 @@ GOVERSION=1.21.1
 
 BIN_DIR=./bin
 
-API_APP_PATH=./cmd/api
-KAFKA_APP_PATH=./cmd/kafka
+API_APP_PATH=./go/cmd/api
+KAFKA_APP_PATH=./go/cmd/kafka
 
 ARGS=$(filter-out $@,$(MAKECMDGOALS))
 
@@ -45,7 +45,7 @@ tidy:
 build: tidy
 	@echo "${.YELLOW}--- Go: build ---${.RESET}"
 	mkdir -p $(BIN_DIR)
-	GOOS=$(GOOS) GOARCH=$(GOARCH) GO111MODULE=$(GO111MODULE) CGO_ENABLED=$(CGO_ENABLED) go build -o $(BIN_DIR) ./cmd/**
+	GOOS=$(GOOS) GOARCH=$(GOARCH) GO111MODULE=$(GO111MODULE) CGO_ENABLED=$(CGO_ENABLED) go build -o $(BIN_DIR) .go/cmd/**
 
 ## Run Go API
 run-api:

@@ -28,7 +28,7 @@ make tidy
 make run-api
 # ou
 go mod tidy
-go run ./cmd/api -sql ./db/create_table_TB01.sql
+go run ./go/cmd/api -sql ./db/create_table_TB01.sql
 ```
 
 #### Endpoints
@@ -69,12 +69,12 @@ make kafka-create-topic topico2
 
 Execute o consumidor do topico 2 primeiro:
 ```sh
-go run ./cmd/kafka -c topico2
+go run ./go/cmd/kafka -c topico2
 ```
 
 Em outro terminal, execute o comando que envia a mensagem para o tópico 1, faz a leitura do tópico 1 e encaminha para o tópico 2:
 ```sh
-go run ./cmd/kafka -m mensagem -k chave
+go run ./go/cmd/kafka -m mensagem -k chave
 ```
 
 ### Testes
