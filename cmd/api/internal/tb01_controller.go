@@ -46,5 +46,15 @@ func (c *TB01Controller) Post(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
+
+	if err := json.NewEncoder(w).Encode(data); err != nil {
+		l.Err(r.Method, "/tb01", "encode response data error", http.StatusCreated, err)
+		return
+	}
+
+	if _, err := w.Write([]byte("\n")); err != nil {
+		l.Err(r.Method, "/tb01", "write response error", http.StatusCreated, err)
+	}
+
 	l.Info(r.Method, "/tb01", "tb01 data inserted successfully")
 }
