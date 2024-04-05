@@ -24,8 +24,8 @@ const (
 	DatabaseTimeZoneVar EnvVar = "DATABASE_TIMEZONE"
 )
 
-// NewDatabase creates a new DatabaseConfig.
-func NewDatabase() *database.Config {
+// NewDatabaseConfig creates a new DatabaseConfig.
+func NewDatabaseConfig() *database.Config {
 	return &database.Config{
 		Host:     GetEnv(DatabaseHostVar),
 		User:     GetEnv(DatabaseUserVar),

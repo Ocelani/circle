@@ -2,7 +2,6 @@ package main
 
 import (
 	"circle/cmd/api/internal"
-	"circle/pkg/config"
 	"circle/pkg/database"
 	"circle/pkg/logger"
 	"flag"
@@ -35,7 +34,7 @@ func main() {
 
 	log.Info().Msg("starting...")
 
-	db, err := database.NewPostgreSQL(config.NewDatabase())
+	db, err := database.NewPostgreSQL(NewDatabaseConfig())
 	if err != nil {
 		log.Panic().Err(err).Msg("failed to connect to database")
 	}
@@ -50,7 +49,7 @@ func main() {
 
 	rep := internal.NewTB01Repository(db)
 	svc := internal.NewTB01Service(rep)
-	ctr := internal.NewTB01Controller(svc, rep, logger.NewAPILogger())
+	ctr := internal.NewTB01Controller(svc, logger.NewAPILogger())
 	app := http.NewServeMux()
 
 	app.HandleFunc("/tb01", ctr.Post)

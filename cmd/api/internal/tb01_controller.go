@@ -9,17 +9,15 @@ import (
 
 // TB01Controller represents a controller for TB01.
 type TB01Controller struct {
-	Service    tb01.Service
-	Repository tb01.Repository
-	log        *logger.APILogger
+	Service tb01.Service
+	log     *logger.APILogger
 }
 
 // NewTB01Controller creates a new TB01Controller.
-func NewTB01Controller(service tb01.Service, repository tb01.Repository, log *logger.APILogger) *TB01Controller {
+func NewTB01Controller(service tb01.Service, log *logger.APILogger) *TB01Controller {
 	return &TB01Controller{
-		Service:    service,
-		Repository: repository,
-		log:        log,
+		Service: service,
+		log:     log,
 	}
 }
 
