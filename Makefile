@@ -7,8 +7,10 @@ CGO_ENABLED=0
 GO111MODULE=auto
 GOVERSION=1.21.1
 
-API_IMG_NAME=api
 BIN_DIR=./bin
+
+API_APP_PATH=./cmd/api
+KAFKA_APP_PATH=./cmd/kafka
 
 ARGS=$(filter-out $@,$(MAKECMDGOALS))
 
@@ -43,33 +45,17 @@ tidy:
 build: tidy
 	@echo "${.YELLOW}--- Go: build ---${.RESET}"
 	mkdir -p $(BIN_DIR)
-	GOOS=$(GOOS) GOARCH=$(GOARCH) GO111MODULE=$(GO111MODULE) CGO_ENABLED=$(CGO_ENABLED) go build -o $(BIN_DIR) ./cmd/userapi
+	GOOS=$(GOOS) GOARCH=$(GOARCH) GO111MODULE=$(GO111MODULE) CGO_ENABLED=$(CGO_ENABLED) go build -o $(BIN_DIR) ./cmd/**
 
-## Build local development binary
-build-dev: 
-	@echo "${.YELLOW}--- Go: build dev ---${.RESET}"
-	mkdir -p $(BIN_DIR)
-	go build -o $(BIN_DIR) ./cmd/userapi
+## Run Go API
+run-api:
+	@echo "${.YELLOW}--- Go: run api app ---${.RESET}"
+	go run $(API_APP_PATH)
 
-## Run Go binary
-run: docker-up
-	@echo "${.YELLOW}--- Go: run ---${.RESET}"
-	$(BIN_DIR)/userapi
-
-## Run Go unit tests
-tests: 
-	@echo "${.YELLOW}--- Go: tests ---${.RESET}"
-	go test -v -race ./...
-
-## Run Go integration tests
-tests-integration: 
-	@echo "${.YELLOW}--- Go: tests ---${.RESET}"
-	go test -tags e2e -v -race ./...
-
-## Run Go integration tests
-tests-script: 
-	@echo "${.YELLOW}--- Manual tests script ---${.RESET}"
-	./scripts/tests.sh
+## Run Go kafka app
+run-kafka:
+	@echo "${.YELLOW}--- Go: run kafka app ---${.RESET}"
+	go run $(KAFKA_APP_PATH) -m message -k key
 
 ## Lint Go code
 lint: 
@@ -77,18 +63,17 @@ lint:
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 	golangci-lint run
 
+## Run Go unit tests
+tests: 
+	@echo "${.YELLOW}--- Go: tests ---${.RESET}"
+	go test -v -race ./...
+
+## Run integration test
+test-script: 
+	@echo "${.YELLOW}--- Manual test script ---${.RESET}"
+	./scripts/test.sh
 
 # * DOCKER * #
-## Build all docker images
-docker-build: build
-	@echo "${.YELLOW}--- Docker: build ---${.RESET}"
-	docker build --build-arg SERVICE_NAME=$(USER_API_IMG_NAME) -t $(USER_API_IMG_NAME):latest .
-
-## Build one docker image
-docker-build-img: 
-	@echo "${.YELLOW}--- Docker: build img ---${.RESET}"
-	docker build --build-arg SERVICE_NAME=$(ARGS) -t $(ARGS):latest .
-
 ## Up docker-compose cluster
 docker-up:
 	@echo "${.YELLOW}--- Docker: up ---${.RESET}"
@@ -102,4 +87,4 @@ docker-down:
 # * KAFKA * #
 kafka-create-topic:
 	@echo "${.YELLOW}--- Kafka: create topic ---${.RESET}"
-	docker-compose exec kafka kafka-topics.sh --create --topic $(ARGS) --partitions 1 --replication-factor 1 --if-not-exists --bootstrap-server kafka:9092
+	docker-compose exec kafka kafka-topics.sh --create --topic $(ARGS) --partitions 3 --replication-factor 1 --if-not-exists --bootstrap-server kafka:9092
