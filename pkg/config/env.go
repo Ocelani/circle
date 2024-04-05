@@ -1,12 +1,12 @@
-package main
+package config
 
 import (
-	"circle/pkg/database"
 	"os"
+
+	"github.com/joho/godotenv"
 )
 
-// EnvVar represents an environment variable name.
-type EnvVar string
+type EnvVar string // EnvVar represents an environment variable name.
 
 // Server configuration.
 const (
@@ -24,9 +24,20 @@ const (
 	DatabaseTimeZoneVar EnvVar = "DATABASE_TIMEZONE"
 )
 
+// Database represents the database configuration.
+type Database struct {
+	Host     string
+	User     string
+	Password string
+	DBName   string
+	Port     string
+	SSlMode  string
+	TimeZone string
+}
+
 // NewDatabase creates a new DatabaseConfig.
-func NewDatabase() *database.Config {
-	return &database.Config{
+func NewDatabase() *Database {
+	return &Database{
 		Host:     GetEnv(DatabaseHostVar),
 		User:     GetEnv(DatabaseUserVar),
 		Password: GetEnv(DatabasePasswordVar),
@@ -37,16 +48,12 @@ func NewDatabase() *database.Config {
 	}
 }
 
-// GetEnv returns the value of an environment variable.
+// getEnv returns the value of an environment variable.
 func GetEnv(envVar EnvVar) string {
 	return os.Getenv(string(envVar))
 }
 
-// GetPort returns the server port.
-func GetPort() string {
-	port := GetEnv(ServerPortVar)
-	if port == "" {
-		return ":" + DefaultPort
-	}
-	return ":" + port
+// loadEnv loads the environment variables from the .env file.
+func LoadEnv() error {
+	return godotenv.Load()
 }
