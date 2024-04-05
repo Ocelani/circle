@@ -5,6 +5,7 @@ import (
 	"circle/pkg/config"
 	"circle/pkg/database"
 	"circle/pkg/logger"
+	"flag"
 	"net/http"
 	"os"
 
@@ -14,9 +15,8 @@ import (
 )
 
 const (
-	DefaultPort     = "3000"             // DefaultPort is the default port for the server.
-	LogLevel        = zerolog.DebugLevel // logLevel is the global log level for the application.
-	SQLFileLocation = "./db/create_table_TB01.sql"
+	DefaultPort = "3000"             // DefaultPort is the default port for the server.
+	LogLevel    = zerolog.DebugLevel // logLevel is the global log level for the application.
 )
 
 // init initializes the logger.
@@ -29,6 +29,10 @@ func init() {
 
 // main is the entrypoint for the application.
 func main() {
+	var sqlFile string
+	flag.StringVar(&sqlFile, "sql", "", "sql file path to be executed")
+	flag.Parse()
+
 	log.Info().Msg("starting...")
 
 	db, err := database.NewPostgreSQL(config.NewDatabase())
@@ -36,12 +40,13 @@ func main() {
 		log.Panic().Err(err).Msg("failed to connect to database")
 	}
 
-	buf, err := os.ReadFile(SQLFileLocation)
-	if err != nil {
-		log.Panic().Err(err).Msg("failed to read SQL file")
+	if sqlFile != "" {
+		buf, err := os.ReadFile(sqlFile)
+		if err != nil {
+			log.Panic().Err(err).Msg("failed to read SQL file")
+		}
+		go db.Exec(string(buf))
 	}
-
-	go db.Exec(string(buf))
 
 	rep := internal.NewTB01Repository(db)
 	svc := internal.NewTB01Service(rep)
