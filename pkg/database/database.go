@@ -1,7 +1,6 @@
 package database
 
 import (
-	"circle/pkg/config"
 	"fmt"
 
 	"gorm.io/driver/postgres"
@@ -25,7 +24,7 @@ type PostgreSQL struct {
 }
 
 // NewPostgreSQL creates a new Database.
-func NewPostgreSQL(cfg *config.Database) (*PostgreSQL, error) {
+func NewPostgreSQL(cfg *Config) (*PostgreSQL, error) {
 	pg := postgres.Open(dsn(cfg))
 
 	db, err := gorm.Open(pg, &gorm.Config{})
@@ -37,7 +36,7 @@ func NewPostgreSQL(cfg *config.Database) (*PostgreSQL, error) {
 }
 
 // dsn returns the data source name for the database connection.
-func dsn(cfg *config.Database) string {
+func dsn(cfg *Config) string {
 	return fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s",
 		cfg.Host, cfg.User, cfg.Password, cfg.DBName, cfg.Port, cfg.SSlMode, cfg.TimeZone,

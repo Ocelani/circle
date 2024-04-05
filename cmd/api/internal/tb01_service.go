@@ -2,6 +2,7 @@ package internal
 
 import (
 	"circle/pkg/tb01"
+	"fmt"
 	"time"
 )
 
@@ -18,7 +19,11 @@ func NewTB01Service(repo tb01.Repository) *TB01Service {
 }
 
 // Create inserts a new record into the database.
-func (s *TB01Service) Create(t *tb01.TB01) error {
-	t.ColDt = time.Now()
-	return s.repo.Create(t)
+func (s *TB01Service) Create(data *tb01.TB01) error {
+	if data.ColTexto == "" {
+		return fmt.Errorf("empty ColTexto field")
+	}
+	data.ColDt = time.Now()
+
+	return s.repo.Create(data)
 }

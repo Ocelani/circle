@@ -17,8 +17,8 @@ func NewTB01Repository(db *database.PostgreSQL) *TB01Repository {
 }
 
 // Create inserts a new record into the database.
-func (r *TB01Repository) Create(t *tb01.TB01) error {
-	if err := r.db.Create(t).Error; err != nil {
+func (r *TB01Repository) Create(data *tb01.TB01) error {
+	if err := r.db.Create(data).Error; err != nil {
 		return fmt.Errorf("failed to insert data on database: %w", err)
 	}
 	return nil
