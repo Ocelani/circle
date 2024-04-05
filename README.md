@@ -59,7 +59,7 @@ A execução possibilita o uso das flags:
 - `k`: chave da mensagem a ser enviada
 - `m`: mensagem a ser enviada
 
-É indicado que execute o comando para criar os tópicos após a inicialização do container do Kafka:
+É indicado que execute o comando para criar os tópicos após a inicialização do container Kafka:
 ```sh
 make kafka-create-topic topico1
 make kafka-create-topic topico2
