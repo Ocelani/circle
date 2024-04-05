@@ -50,7 +50,8 @@ build: tidy
 ## Run Go API
 run-api:
 	@echo "${.YELLOW}--- Go: run api app ---${.RESET}"
-	go run $(API_APP_PATH)
+	go run $(API_APP_PATH) -sql ./db/create_table_TB01.sql
+
 
 ## Run Go kafka app
 run-kafka:
