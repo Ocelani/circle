@@ -57,12 +57,6 @@ run-kafka:
 	@echo "${.YELLOW}--- Go: run kafka app ---${.RESET}"
 	go run $(KAFKA_APP_PATH) -m message -k key
 
-## Lint Go code
-lint: 
-	@echo "${.YELLOW}--- Go: lint ---${.RESET}"
-	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
-	golangci-lint run
-
 ## Run Go unit tests
 tests: 
 	@echo "${.YELLOW}--- Go: tests ---${.RESET}"
